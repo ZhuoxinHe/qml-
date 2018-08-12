@@ -22,6 +22,10 @@ Qt C++ - 跨平台C++封装库
 
 [1.5、布局元素](#1.5)
 
+[1.6、输入元素](#1.6)
+
+[2、高级用法](#2)
+
 <h2 id=1>qml快速入门<h2>
 
 <h3 id=1.1>语法</h3>
@@ -224,3 +228,24 @@ GradientStop	{	position:	1.0;	color:	"slategray"	}
 
 - 使用anchors（锚）对元素进行布局
 - anchoring（锚定）是基础元素对象的基 本属性，可以<b>被所有的可视化</b>QML元素使用
+- top顶，bottom底，left左，right右，horizontalCenter水平 中，verticalCenter垂直中
+- 以及对于 horizontalCenter（水平中）与verticalCenter（垂直中）与baseline（文本基线）中 被称作偏移值
+
+<h3 id=1.6>1.6输入元素</h3>
+
+- 文本输入（TextInput）
+- 只允许输入一行文本，不过素支持使用正则表达式验证器来限制输入和输入掩码的模式设置
+
+- 焦点区域（FocusScope）
+- 如果焦点区域接收到焦点，它的最后一个使用 focus:true的子元素接收焦点，它将会把焦点传递给最后申请焦点的子元素。
+
+- 文本编辑（TextEdit）
+- 它支持多行文本编辑。
+- 它不再支持文本输入的限制，但是提供了已绘制文本的大小查询 （paintedHeight，paintedWidth）
+
+- 按键元素（Key	Element）
+- 基于某个按键的点击来执行代码
+- 例如使用up，down按键来移 动一个方块，left，right按键来旋转一个元素，
+- plus，minus按键来缩放一个元素
+
+<h2 id=2>2、高级用法</h2>
