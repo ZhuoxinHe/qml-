@@ -152,4 +152,32 @@ MouseArea（鼠标区域）
 
 | 分组 | 属性 |
 |--|--|
+Geometry（几何属性）| x，y定义与左上角的位置，width、height定义元素显示范围，z重叠的位置
+Layout handling（布局操作）|anchors(锚定，包括左(left)、右(right)、上(top)、下(bottom)、<br>中(center)、全(fill)、水平与垂直居中(vertical center，horizontal	center))
+Key	handling（按键操作）|附加属性key（按键）和keyNavigation（按键定位）属 性来控制按键操作，处理输入焦点（focus）可用操作。
+Transformation（转 换）| 缩放（scale）、rotate(旋转),x、y、z属性转换（transform）,旋转基点（transformOrigin）
+Visual(可视化)| 不透明度（opacity），visible（是否可见），clip（裁剪）用来限制元素边界的绘制，smooth（平滑）用来提高渲染质量
+State	definition（状态定义）|states（状态列表属性）提供了元素当前所支持的状态列表
 
+item相当于html的div元素。常用来作为其他元素的容器
+
+<h4>矩形框元素（Rectangle Element）</h4>
+
+基础元素的扩展，支持边界的定义，border.color（边界颜色），border.width（边界宽度）
+
+使用radius（半径）属性来创建一个圆角矩形。
+
+支持渐变色的实现
+
+```qml
+gradient:	Gradient	{										
+GradientStop	{	position:	0.0;	color:	"lightsteelblue"	}					
+GradientStop	{	position:	1.0;	color:	"slategray"	}				
+}	
+```
+
+- 位置标记了y轴上的位置（0	=	顶，1	=	底）。GradientStop（倾斜点）的颜色标记了颜色 的位置。
+
+<h4>文本元素（Text Element）</h4>
+
+用于显示文本，有text和font（字体属性组）两个属性
