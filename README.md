@@ -303,3 +303,54 @@ Image	{
 - PropertyAction（属性动作）-	在播放动画时改变属性
 - ScriptAction（脚本动作）-	在播放动画时运行脚本
 
+<h4>应用动画（Applying Animations）</h4>
+
+应用的方式：
+- 属性动画，在元素完整加载后自动运行
+- 属性动作，当属性值改变时自动运行
+- 独立运行动画，使用start()函数明确指定运行或running属性被设置为true（比如通过属性绑定）
+- 每个动画都有start()，stop()，resume()，restart()函数
+- 另一个启动/停止一个动画的方法是绑定一个动画的running属性
+
+<h4>缓冲曲线（Easing	Curves）</h4>
+
+<h4>动画分组（Grouped Animations）</h4>
+
+- 有两种分组方法：平行与连续
+- SequentialAnimation(连续动画)、ParallelAnimation（平行动画）
+- 平行动画例子：
+
+```qml
+//	parallelanimation.qml import
+QtQuick	2.0
+BrightSquare	{		
+	id:	root		
+	width:	300		
+	height:	200		
+	property int duration:	3000
+	ClickableImageV3	{	
+		id:rocket		
+		x:20;	y:120	
+		source:	"assets/rocket2.png"	
+		onClicked:anim.restart()	
+}
+ParallelAnimation{	
+	id:	anim		
+	NumberAnimation	{	
+		target:	rocket		
+		properties:"y"	
+		to:	20		
+		duration:root.duration	
+	}				
+	NumberAnimation	{	
+		target:	rocket		
+		properties:"x"		
+		to:160		
+		duration:root.duration	
+	}				
+	} 
+}
+
+```
+
+- 连续动画的例子：
