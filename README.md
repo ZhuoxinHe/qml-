@@ -26,6 +26,16 @@ Qt C++ - 跨平台C++封装库
 
 [2、动态元素](#2)
 
+[3、模型-视图-代理](#3)
+
+[4、画布元素](#4)
+
+[5、粒子模型](#5)
+
+[6、着色器效果](#6)
+
+
+
 <h2 id=1>qml快速入门<h2>
 
 <h3 id=1.1>语法</h3>
@@ -354,3 +364,153 @@ ParallelAnimation{
 ```
 
 - 连续动画的例子：
+
+
+<h2 id=3>模型-视图-代理</h2>
+
+
+<h2 id=4>画布元素</h2>
+
+
+<h2 id=5>粒子模拟</h2>
+
+	粒子模拟是计算机图形技术的可视化图形效果。
+	它不同于其它图形渲染，粒子是基于模糊来渲染。
+	它的结果在基于像素下是不可预测的。
+	
+<h3>概念</h3>
+
+	粒子模拟的核心是粒子系统（ParticleSystem），它控制了共享时间线。
+	一个场景 下可以有多个粒子系统，每个都有自己独立的时间线。
+	一个粒子使用发射器元素 （Emitter）发射，使用粒子画笔（ParticlePainter）实现可视化，它可以是一张图 片，一个QML项或者一个着色项（shader	item）。
+	一个发射器元素（Emitter）也 提供向量来控制粒子方向。
+	
+- 粒子系统（ParticleSystem）-	管理发射器之间的共享时间线。
+- 发射器（Emitter）-	向系统中发射逻辑粒子。
+- 粒子画笔（ParticlePainter）-实现粒子可视化。
+- 方向（Direction）-已发射粒子的向量空间。
+- 粒子组（ParticleGroup）-	每个粒子是一个粒子组的成员。
+- 粒子控制器（Affector）-	控制已发射粒子。
+
+<h3>简单的模拟（Simple Simulation）</h3>
+
+- 需要：
+- 绑定所有元素到一个模拟的粒子系统（ParticleSystem）。
+- 一个向系统发射粒子的发射器（Emitter）。
+- 一个ParticlePainter派生元素，用来实现粒子的可视化。
+
+```qml
+import	QtQuick	2.0 import	
+QtQuick.Particles	2.0
+Rectangle	
+{		
+	id:	root		
+	width:	480;	height:	160	
+	color:	"#1f1f1f"
+		ParticleSystem	
+		{	
+		i	d:	particleSystem	
+		}
+		Emitter	{	
+			id:	emitter	
+			anchors.centerIn:	parent		
+			width:	160;	height:	80	
+			system:	particleSystem		
+			emitRate:	10		
+			lifeSpan:	1000		
+			lifeSpanVariation:	500	
+			size:	16			
+			endSize:	32		
+			Tracer	{	
+				color:	'green'	
+			}		
+		}
+		ImageParticle	{	
+			source:	"assets/particle.png"	
+			system:	particleSystem		
+		}
+}
+```
+	在这个例子中，发射器每秒发射10个粒子（emitRate:10）到发射器的区域，
+	每个粒子的生命周期是1000毫秒（lifeSpan:1000），
+	一个已发射粒子的生命周期变化是 500毫秒（lifeSpanVariation:500）。
+	一个粒子开始的大小是16个像素（size:16）， 生命周期结束时的大小是32个像素（endSize:32）。
+
+<h3>粒子参数（Particle Parameters）</h3>
+
+- 粒子使用金色来进行初始化，不同的粒子颜色变化范围为+/-	20%。
+	color:	'#FFD700'
+	colorVariation:	0.2
+	
+- 每个粒子首先按顺时针旋转15度，不同 的粒子在+/-5度之间变化。
+- 每个例子会不断的以每秒45度旋转。每个粒子的旋转速 度在+/-15度之间变化
+	rotation:15 rotationVariation:	
+	5 rotationVelocity:45 
+	rotationVelocityVariation:15
+
+<h3>粒子方向（Directed Particle）</h3>
+
+- 有多种可用矢量空间用来定义粒子的速度或加速度：
+- 角度方向（AngleDirection）-	使用角度的方向变化。
+- 点方向（PointDirection）-	使用x,y组件组成的方向变化。
+- 目标方向（TargetDirection）-	朝着目标点的方向变化。
+
+- 例子：
+	粒子的发射将会使用指定的角度属性。
+	角度值在0到360度之间，0度代表指向右 边。
+	在我们的例子中，例子将会移动到右边，所以0度已经指向右边方向。粒
+	子的 角度变化在+/-15度之间：
+	velocity:AngleDirection	{	
+		angle:	0		
+		angleVariation:	15 
+	}
+
+- 现在我们已经设置了方向，下面是指定粒子的速度。
+- 它由一个梯度值定义，这个梯 度值定义了每秒像素的变化。
+- 为了让粒子的穿越看起来更加有趣，我们使用magnitudeVariation来设置梯度值的 变化
+- 这个值是我们的梯度值的一半：
+	velocity:AngleDirection	{	
+		...			
+		magnitude:100	
+		magnitudeVariation:50 
+	}
+
+- 下一个例子中，我们将使用点方向（PointDirection）矢量空间来再一次演示粒子 从左到右的运动
+- 在我们的例子中，我们希望粒子在从左到右的例子中建立一个15度的圆锥。
+- 我们指 定一个坐标方向（PointDirection）作为我们速度矢量空间：
+	velocity:PointDirection	{		
+		x:100		
+		y:0		
+		xVariation:0	
+		yVariation:100/6 
+	}
+
+<h3>粒子画笔（Particle Painter）</h3>
+
+- 粒子项（ItemParticle）：基于粒子画笔的代理
+- 自定义粒子（CustomParticle）：基于粒子画笔的着色器
+
+
+<h2 id=6>着色器效果</h2>
+
+
+<h2 id=7>多媒体</h2>
+
+
+<h2 id=8>网络</h2>
+
+
+<h2 id=9>存储</h2>
+
+
+<h2 id=10>动态qml</h2>
+
+
+<h2 id=11>javaScript</h2>
+
+
+<h2 id=12>Qt and c++</h2>
+
+
+<h2 id=13>c++扩展QML</h2>
+
