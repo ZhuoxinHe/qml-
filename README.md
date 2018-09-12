@@ -50,6 +50,8 @@ Qt C++ - 跨平台C++封装库
 
 [14、qml的小技巧](#14)
 
+[15、view/modwl](#15)
+
 <h2 id=1>qml快速入门<h2>
 
 <h3 id=1.1>语法</h3>
@@ -515,9 +517,31 @@ Rectangle
 
 - Qt5在C++中有丰富的网络相关的类。
 
-<h3>通过HTTP服务UI</h3>
+<h3>支持网络的对象</h3>
 
+<h4>Image</h4>
 
+- image的source属性就是url类型，可以接收http协议的链接地址，显示网络图片
+
+<h4>Qt.createComponent</h4>
+
+- 全局对象qt的createComponent(url,mode,parent)方法的第一个参数就是url类型，可以根据url创建一个组件，支持从网络加载
+
+<h4>loader对象</h4>
+
+- loader类的source属性从指定的url加载组件，可以接收http链接
+
+<h4>QQmlApplicationEngine</h4>
+
+- QQmlApplicationEngine的load()方法，其参数类型是QUrl，能够接收网络地址
+
+<h4>QQuickView</h4>
+
+- QQuiclView的setSource()方法参数类型是QUrl，也可以利用此方法从网络加载QML
+
+<h4>MediaPLayer</h4>
+
+- sourece属性支持http等协议
 
 <h2 id=9>存储</h2>
 
@@ -548,3 +572,6 @@ Rectangle
 - 添加一个名字的bundle
 - 使用转换文件设置语言
 <p>使用（命令行）：qmlscene 文件名</p>
+
+<h2 id=15>view/model</h2>
+
