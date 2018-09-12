@@ -50,7 +50,7 @@ Qt C++ - 跨平台C++封装库
 
 [14、qml的小技巧](#14)
 
-[15、view/modwl](#15)
+[15、view/model扩展](#15)
 
 <h2 id=1>qml快速入门<h2>
 
@@ -573,5 +573,38 @@ Rectangle
 - 使用转换文件设置语言
 <p>使用（命令行）：qmlscene 文件名</p>
 
-<h2 id=15>view/model</h2>
+<h2 id=15>view/model扩展</h2>
 
+- QAbstractItemModel是大多数模型类库的祖先，比如QAbstractListModel、QAbstractProxyModel、
+- QAbstractTableModel、QFileSystemModel、QStringListModel、QStandardItemModel等。
+- QAbstractItemView是大多数视图类的祖先，如QListView、QTableView、QTreeView等
+- QAbstractItemDelegate是所有Delegate的抽象基类，又衍生出两个分支：QSty;edItemDelegate(推荐)和QItemDelegate.
+
+<h3>ListView的简单使用</h3>
+
+- 必须指定一个model和一个delegate，其中model可以是qml内置类型，如ListModel、XmlListModel，也可以是c++中实现的
+- QAbstractItemModel或QAbstractListMedol的派生类
+- view层可以指定header（表头）或footer（表尾）
+
+<h4>访问于修改model</h4>
+
+- 访问数据：var data = listView.model.get(listView.currentIndex);
+- 获取指定索引位置的数据，返回一个qml对象。然后，我们就可以像访问数据一样访问数据的role了。
+<br>
+- 删除数据：ListModel的remove(int index, int count)方法第一个参数用于指定要删除的索引位置，第二个参数用于删除条数，默认1
+<br>
+- 修改数据：setProperty(int index,string property, variant value)方法，第一个参数数据的索引，第二个role的名字
+- ，第三个role的值
+<br>
+- 添加数据：
+- append()方法在末尾添加jsobject类型的数据，insert()可以指定添加的位置
+
+<h4>动画效果</h4>
+
+- ListView提供了add、remove、move、populate、displaced几种场景过度动画效果。
+<br>
+- add:当新增一个item时的针对item应用的过渡动画
+<br>
+- displaced:model变化导致item移位时的动画效果
+<br>
+- 
