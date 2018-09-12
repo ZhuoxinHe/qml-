@@ -590,21 +590,24 @@ Rectangle
 
 - 访问数据：var data = listView.model.get(listView.currentIndex);
 - 获取指定索引位置的数据，返回一个qml对象。然后，我们就可以像访问数据一样访问数据的role了。
-<br>
-- 删除数据：ListModel的remove(int index, int count)方法第一个参数用于指定要删除的索引位置，第二个参数用于删除条数，默认1
-<br>
-- 修改数据：setProperty(int index,string property, variant value)方法，第一个参数数据的索引，第二个role的名字
-- ，第三个role的值
-<br>
+
+- 删除数据：ListModel的remove(int index, int count)方法第一个参数用于指定要删除的索引位置，第二个参数用于删除条数，默认1 
+
+- 修改数据：setProperty(int index,string property, variant value)方法，第一个参数数据的索引，第二个role的名字 
+
 - 添加数据：
 - append()方法在末尾添加jsobject类型的数据，insert()可以指定添加的位置
 
 <h4>动画效果</h4>
 
-- ListView提供了add、remove、move、populate、displaced几种场景过度动画效果。
-<br>
+- ListView提供了add、remove、move、populate、displaced几种场景过度动画效果。 
+
 - add:当新增一个item时的针对item应用的过渡动画
-<br>
+
 - displaced:model变化导致item移位时的动画效果
-<br>
-- 
+
+- move:
+
+- remove:
+
+
